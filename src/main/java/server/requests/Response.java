@@ -1,18 +1,16 @@
 package server.requests;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.annotations.Expose;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+public class Response {
 
-public class Response implements JsonConverter {
     public static final String STATUS_OK = "OK";
     public static final String STATUS_ERROR = "ERROR";
 
-    private String response;
-    private String reason;
-    private String value;
+    @Expose private String response;
+    @Expose private String reason;
+    @Expose private JsonElement value;
 
 
     public String getResponse() {
@@ -31,23 +29,11 @@ public class Response implements JsonConverter {
         this.reason = reason;
     }
 
-    public String getValue() {
+    public JsonElement getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(JsonElement value) {
         this.value = value;
-    }
-
-    @Override
-    public String toJson() {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("response", response);
-        map.put("value", value);
-        map.put("reason", reason);
-        return gson.toJson(map);
     }
 }

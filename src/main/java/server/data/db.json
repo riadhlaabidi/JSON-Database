@@ -1,3 +1,18 @@
 {
-  "Some key": "Some text"
+  "person2": {
+    "name": {
+      "firstname": "Elon"
+    }
+  },
+  "person": {
+    "name": "Elon Musk",
+    "car": {
+      "model": "Tesla Roadster"
+    },
+    "rocket": {
+      "name": "Falcon 9",
+      "launches": "88"
+    }
+  },
+  "1": "5555"
 }

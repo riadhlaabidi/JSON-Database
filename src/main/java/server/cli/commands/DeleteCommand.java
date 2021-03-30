@@ -1,12 +1,13 @@
 package server.cli.commands;
 
-import server.database.Database;
+import com.google.gson.JsonElement;
+import server.Database;
 
 public class DeleteCommand implements Command {
 
-    private final String key;
+    private final JsonElement key;
 
-    public DeleteCommand(String key) {
+    public DeleteCommand(JsonElement key) {
         this.key = key;
     }
 

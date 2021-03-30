@@ -1,17 +1,18 @@
 package server.cli.commands;
 
-import server.database.Database;
+import com.google.gson.JsonElement;
+import server.Database;
 
 public class GetCommand implements Command {
 
-    private final String key;
-    private String result;
+    private final JsonElement key;
+    private JsonElement result;
 
-    public GetCommand(String key) {
+    public GetCommand(JsonElement key) {
         this.key = key;
     }
 
-    public String getResult() {
+    public JsonElement getResult() {
         return result;
     }
 
