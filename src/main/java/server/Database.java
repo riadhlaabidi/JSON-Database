@@ -102,6 +102,7 @@ public enum Database {
                     tmp = tmp.getAsJsonObject().get(key.getAsString());
                 } else {
                     tmp.getAsJsonObject().add(key.getAsString(), new JsonObject());
+                    tmp = tmp.getAsJsonObject().get(key.getAsString());
                 }
             }
         } else {

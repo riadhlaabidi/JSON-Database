@@ -69,7 +69,7 @@ public class Session implements Runnable {
                 response.setResponse(Response.STATUS_ERROR);
                 e.printStackTrace();
             } finally {
-                output.writeUTF(GsonUtils.prettyGson.toJson(request));
+                output.writeUTF(GsonUtils.prettyGson.toJson(response));
             }
         } catch (IOException e) {
             e.printStackTrace();
