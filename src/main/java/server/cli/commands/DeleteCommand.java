@@ -1,7 +1,7 @@
 package server.cli.commands;
 
 import com.google.gson.JsonElement;
-import server.database.Database;
+import server.Database;
 
 public class DeleteCommand implements Command {
 
