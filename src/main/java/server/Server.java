@@ -1,26 +1,35 @@
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public enum Server {
+enum Server {
+
     INSTANCE;
+
+    public static final Path DATA_DIR_PATH = Paths.get(
+            "src" + File.separator +
+            "main" + File.separator +
+            "java" + File.separator +
+            "server" + File.separator +
+            "data").toAbsolutePath();
 
     private static final String ADDRESS = "localhost";
     private static final int PORT = 9000;
     private static final int BACKLOG = 50;
-    private static final int THREAD_COUNT;
-    private static final ExecutorService EXECUTOR_SERVICE;
 
-    static {
-        THREAD_COUNT = Runtime.getRuntime().availableProcessors();
-        EXECUTOR_SERVICE = Executors.newFixedThreadPool(THREAD_COUNT);
+    private final ExecutorService executor;
+
+    {
+        final int threads = Runtime.getRuntime().availableProcessors();
+        executor = Executors.newFixedThreadPool(threads);
     }
-
-    private boolean exit = false;
 
     Server() {}
 
@@ -29,17 +38,15 @@ public enum Server {
         try (ServerSocket socket = new ServerSocket(PORT,
                 BACKLOG, InetAddress.getByName(ADDRESS))) {
 
-            while (!exit) {
+            Database.INSTANCE.init();
+
+            while (!executor.isShutdown()) {
                 Session session = new Session(socket.accept());
-                EXECUTOR_SERVICE.submit(session);
+                executor.submit(session);
             }
-            EXECUTOR_SERVICE.shutdown();
+            executor.shutdown();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void exit() {
-        exit = true;
     }
 }
