@@ -1,14 +1,15 @@
 package server;
 
-import com.google.gson.Gson;
-
 import server.cli.CommandExecutor;
 import server.cli.commands.DeleteCommand;
 import server.cli.commands.GetCommand;
 import server.cli.commands.SetCommand;
 import server.exceptions.BadRequestException;
+import server.exceptions.NoSuchKeyException;
 import server.requests.Request;
+import server.requests.RequestBuilder;
 import server.requests.Response;
+import server.utils.GsonUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -26,11 +27,16 @@ public class Session implements Runnable {
 
     @Override
     public void run() {
-        try (socket;
-             DataInputStream input = new DataInputStream(socket.getInputStream());
-             DataOutputStream output = new DataOutputStream(socket.getOutputStream())) {
+        try (
+                socket;
+                DataInputStream input = new DataInputStream(socket.getInputStream());
+                DataOutputStream output = new DataOutputStream(socket.getOutputStream())
+        ) {
 
-            Request request = new Gson().fromJson(input.readUTF(), Request.class);
+            Request request = RequestBuilder.newBuilder()
+                    .fromJson(input.readUTF())
+                    .build();
+
             Response response = new Response();
 
             try {
@@ -56,13 +62,15 @@ public class Session implements Runnable {
 
                 response.setResponse(Response.STATUS_OK);
 
-            } catch (Exception e) {
+            } catch (BadRequestException | NoSuchKeyException e) {
                 response.setResponse(Response.STATUS_ERROR);
                 response.setReason(e.getMessage());
+            } catch (Exception e) {
+                response.setResponse(Response.STATUS_ERROR);
+                e.printStackTrace();
             } finally {
-                output.writeUTF(response.toJson());
+                output.writeUTF(GsonUtils.prettyGson.toJson(request));
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
