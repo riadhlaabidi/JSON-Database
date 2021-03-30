@@ -39,12 +39,17 @@ public class Client {
                     ? new String(Files.readAllBytes(DATA_DIR_PATH.resolve(cla.filename)))
                     : GsonUtils.prettyGson.toJson(cla);
 
+            if (request.isBlank() || "{}".equals(request)) {
+                System.out.println("No request given !");
+                return;
+            }
+
             output.writeUTF(request);
             System.out.println("Sent: " + request);
             System.out.println("Received: " + input.readUTF());
         } catch (NoSuchFileException e) {
             System.out.println("Cannot read file: " + e.getMessage());
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
