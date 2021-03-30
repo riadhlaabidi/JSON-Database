@@ -1,13 +1,14 @@
 package server.cli.commands;
 
+import com.google.gson.JsonElement;
 import server.database.Database;
 
 public class SetCommand implements Command {
 
-    private final String key;
-    private final String value;
+    private final JsonElement key;
+    private final JsonElement value;
 
-    public SetCommand(String key, String value) {
+    public SetCommand(JsonElement key, JsonElement value) {
         this.key = key;
         this.value = value;
     }
