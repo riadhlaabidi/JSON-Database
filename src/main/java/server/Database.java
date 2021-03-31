@@ -98,12 +98,10 @@ public enum Database {
         JsonElement tmp = database;
         if (createIfAbsent) {
             for (JsonElement key: keys) {
-                if (tmp.getAsJsonObject().has(key.getAsString())) {
-                    tmp = tmp.getAsJsonObject().get(key.getAsString());
-                } else {
+                if (!tmp.getAsJsonObject().has(key.getAsString())) {
                     tmp.getAsJsonObject().add(key.getAsString(), new JsonObject());
-                    tmp = tmp.getAsJsonObject().get(key.getAsString());
                 }
+                tmp = tmp.getAsJsonObject().get(key.getAsString());
             }
         } else {
             for (JsonElement key: keys) {
