@@ -30,10 +30,25 @@ first run the server
 java -jar target/server-jar-with-dependencies.jar
 ```
 
-then run the client
+then run the client with the request args
 
 ```shell
 java -jar target/client-jar-with-dependencies.jar -t set -k "some key" -v "some value"
+```
+
+or with a file containing the request as json, for example a file `set.json` 
+has the following content:
+
+```json
+{
+  "type": "set",
+  "key": "some key",
+  "value": "some value"
+}
+```
+
+```shell
+java -jar target/client-jar-with-dependencies.jar -in set.json
 ```
 
 the output should be something like
@@ -45,17 +60,15 @@ Sent: {
   "value": "some value"
 }
 Received: {
-  "response": "OK",
+  "response": "OK"
 }
 ```
 
 ### Usage
-Options:
-* -t, --type
-    * Type of the request
-* -k, --key 
-    * Record key
-* -v, --value
-    * Value to add
-* -in, --input-file
-    * File containing the request as json
+
+|option             |description                             |
+|:------------------|:---------------------------------------|
+| -t, --type        | Type of the request (set, get, delete) |
+| -k, --key         | Record key                             |
+| -v, --value       | Value to add                           |
+| -in, --input-file | File containing the request as json    |
