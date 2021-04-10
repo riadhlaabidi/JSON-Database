@@ -37,7 +37,7 @@ public class Client {
 
             String request = cla.filename != null
                     ? new String(Files.readAllBytes(DATA_DIR_PATH.resolve(cla.filename)))
-                    : GsonUtils.prettyGson.toJson(cla);
+                    : GsonUtils.prettyPrint(cla);
 
             if (request.isBlank() || "{}".equals(request)) {
                 System.out.println("No request given !");

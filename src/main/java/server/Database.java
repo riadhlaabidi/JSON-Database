@@ -116,7 +116,7 @@ public enum Database {
 
     private void writeToDatabase() {
         try (FileWriter writer = new FileWriter(DB_PATH.toString())) {
-            writer.write(GsonUtils.prettyGson.toJson(database));
+            writer.write(GsonUtils.prettyPrint(database));
         } catch (IOException e) {
             e.printStackTrace();
         }
