@@ -1,5 +1,6 @@
 package server;
 
+import com.google.gson.Gson;
 import server.cli.CommandExecutor;
 import server.cli.commands.DeleteCommand;
 import server.cli.commands.GetCommand;
@@ -7,7 +8,6 @@ import server.cli.commands.SetCommand;
 import server.exceptions.BadRequestException;
 import server.exceptions.NoSuchKeyException;
 import server.requests.Request;
-import server.requests.RequestBuilder;
 import server.requests.Response;
 import server.utils.GsonUtils;
 
@@ -33,10 +33,7 @@ public class Session implements Runnable {
                 DataOutputStream output = new DataOutputStream(socket.getOutputStream())
         ) {
 
-            Request request = RequestBuilder.newBuilder()
-                    .fromJson(input.readUTF())
-                    .build();
-
+            Request request = new Gson().fromJson(input.readUTF(), Request.class);
             Response response = new Response();
 
             try {
