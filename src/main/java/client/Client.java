@@ -5,23 +5,15 @@ import server.utils.GsonUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 public class Client {
-
-    private static final Path DATA_DIR_PATH = Paths.get(
-            "src" + File.separator +
-            "main" + File.separator +
-            "java" + File.separator +
-            "client" + File.separator +
-            "data").toAbsolutePath();
 
     private static final String ADDRESS = "localhost";
     private static final int PORT = 9000;
@@ -36,7 +28,7 @@ public class Client {
         ) {
 
             String request = cla.filename != null
-                    ? new String(Files.readAllBytes(DATA_DIR_PATH.resolve(cla.filename)))
+                    ? new String(Files.readAllBytes(Path.of(cla.filename)))
                     : GsonUtils.prettyPrint(cla);
 
             if (request.isBlank() || "{}".equals(request)) {
