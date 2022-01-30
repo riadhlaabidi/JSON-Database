@@ -1,5 +1,5 @@
 # JSON-Database
-client-server application that allows clients to store data on the server in JSON format.
+client-server application that allows clients to store data in JSON format.
 
 #### Stack and topics covered:
 * JSON (Gson)
@@ -19,24 +19,24 @@ to build the project
 mvn clean package
 ```
 
-this should generate two jars in the `target` folder:
-* `server-jar-with-dependencies.jar`
-* `client-jar-with-dependencies.jar`
+this should generate two jars:
+* `server-jar-with-dependencies.jar` in the `target` folder of the server module.
+* `client-jar-with-dependencies.jar` in the `target` folder of the client module
 
 ### Run
 first run the server
 
 ```shell
-java -jar target/server-jar-with-dependencies.jar
+java -jar server/target/server-jar-with-dependencies.jar
 ```
 
 then run the client with the request args
 
 ```shell
-java -jar target/client-jar-with-dependencies.jar -t set -k "some key" -v "some value"
+java -jar client/target/client-jar-with-dependencies.jar -t set -k "some key" -v "some value"
 ```
 
-or with a file containing the request as json, for example a file `set.json` 
+or you can run the client with a file containing the request as json, for example `set.json` 
 has the following content:
 
 ```json
@@ -48,12 +48,12 @@ has the following content:
 ```
 
 ```shell
-java -jar target/client-jar-with-dependencies.jar -in set.json
+java -jar client/target/client-jar-with-dependencies.jar -in set.json
 ```
 
 the output should be something like
 
-```json
+```
 Sent: {
   "type": "set",
   "key": "some key",
@@ -66,7 +66,7 @@ Received: {
 
 ### Usage
 
-|option             |description                             |
+| option            | description                            |
 |:------------------|:---------------------------------------|
 | -t, --type        | Type of the request (set, get, delete) |
 | -k, --key         | Record key                             |
