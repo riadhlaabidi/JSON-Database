@@ -20,7 +20,7 @@ public enum Database {
     INSTANCE;
 
     private static final String FILENAME = "db.json";
-    private static final Path DB_PATH = Server.DATA_DIR_PATH.resolve(FILENAME);
+    private static final Path DB_PATH = Path.of("server").resolve(FILENAME);
     private final Lock readLock;
     private final Lock writeLock;
     private JsonObject database;
